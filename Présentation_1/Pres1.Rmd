@@ -1,0 +1,59 @@
+---
+title: |
+  | La régression Bêta 
+subtitle: "Une alternative intéressante pour modéliser des proportions"
+author: Maxime Lacroix
+date: 28 septembre 2018
+output: 
+ beamer_presentation:
+    theme: "AnnArbor"
+    colortheme: "beaver"
+    fonttheme: "structurebold"
+---
+
+# Mise en contexte
+
+## Contexte
+
+- Régression sur une variable réponse tenue entre (0,1)
+- Par exemple, un taux ou une proportion
+- Régression linéaire "classique" à éviter
+
+## Première solution : transformation logit
+
+\begin{exampleblock}{Première transformation possible}
+\begin{equation} 
+  \widetilde{y} = log(\frac{y}{1-y})
+  \label{eq:beta_base}
+\end{equation} 
+\end{exampleblock}
+
+- Avantage :
+    - Les données ne sont plus bornées, la régression linéaire est envisageable
+- Désavantages : 
+    - Interprétation différente
+    - Fort potentiel d'hétéroscédasticité
+    - Les données sont souvent asymtrique $\rightarrow$ problèmes pour les tests d'hypothèses et les intervalles de confiance.
+    
+---
+
+
+```{r, cars, fig.cap="Nuage de points", echo=FALSE}
+summary(cars)
+```
+
+## Going to sleep
+
+- Get in bed
+- Count sheep
+
+## \LaTeX
+
+\begin{exampleblock}{Densité d'une loin bêta}
+\begin{equation} 
+  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}
+  \label{eq:beta_base}
+\end{equation} 
+\end{exampleblock}
+
+Hello Equation \ref{eq:beta_base}
