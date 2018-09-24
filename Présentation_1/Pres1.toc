@@ -1,1 +1,2 @@
 \beamer@sectionintoc {1}{Mise en contexte}{2}{0}{1}
+\beamer@sectionintoc {2}{Solution : R\IeC {\'e}gression B\IeC {\^e}ta}{5}{0}{2}

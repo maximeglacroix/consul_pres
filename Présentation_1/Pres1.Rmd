@@ -35,19 +35,21 @@ output:
     - Fort potentiel d'hétéroscédasticité
     - Les données sont souvent asymtrique $\rightarrow$ problèmes pour les tests d'hypothèses et les intervalles de confiance.
     
----
 
 
-```{r, cars, fig.cap="Nuage de points", echo=FALSE}
-summary(cars)
-```
+# Solution : Régression Bêta
 
-## Going to sleep
+## Brève présentation 
 
-- Get in bed
-- Count sheep
+- Présentée pour la première fois en 2004 par Ferrari et Cribari-Neto
+- Intérêt majeur ; 
+    - La densité bêta prend différentes formes dépendemment des paramètres
+    - Densité généralement hétéroscédastique
+    - Interprétation semblable à la régression logistique
 
-## \LaTeX
+METTRE DES GRAPHIQUES QUI PROUVENT LE POINT 2
+
+## Présentation mathématique
 
 \begin{exampleblock}{Densité d'une loin bêta}
 \begin{equation} 
@@ -57,3 +59,11 @@ summary(cars)
 \end{exampleblock}
 
 Hello Equation \ref{eq:beta_base}
+
+---
+
+```{r, cars, fig.cap="Nuage de points", echo=FALSE}
+summary(cars)
+```
+
+
