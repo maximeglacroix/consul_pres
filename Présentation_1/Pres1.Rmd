@@ -212,11 +212,11 @@ knitr::kable(as.data.frame(summary(mod2)$coefficients$precision),
              booktabs = T)
 ```
 
-## Troisième modèle : Lien log-log et dispersion constante
+## Troisième modèle : Lien log et dispersion constante
 
 ```{r, fig.cap="", echo=TRUE,warning=FALSE,message=FALSE,eval=FALSE}
 mod3 <- betareg(Value~continent|1,
-                link = "loglog",
+                link = "log",
                 data=dat_prop)
 summary(mod3)
 ```
@@ -226,14 +226,25 @@ summary(mod3)
 
 ```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE,eval=TRUE}
 mod3 <- betareg(Value~continent|1,
-                link = "loglog",
-                link.phi = "identity",
+                link = "log",
                 data=dat_prop)
 knitr::kable(as.data.frame(summary(mod3)$coefficients$mean),
              booktabs = T)
 knitr::kable(as.data.frame(summary(mod3)$coefficients$precision),
              booktabs = T)
 ```
+
+## Comparaison des différents modèles 
+
+Les différents modèles nous ont montré différentes choses :
+
+- Peu importe le lien choisi, l'estimation de $\phi$ est la même si on le choisi constant. 
+- Comme on maximise la vraisemblance, il est naturel que les coefficients pour $\mu$ ne soient pas les mêmes pour les modèles 1 et 2.
+
+Maintenant, on pourrait se demander quel est le meilleur modèle. Plusieurs options s'offrent à nous, que ce soit un test de vraisemblance ou en utilisant le critère de notre choix. 
+
+## Test du maximum de vraisemblance.
+
 
 
 
