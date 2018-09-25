@@ -33,7 +33,7 @@ output:
 - Désavantages : 
     - Interprétation différente
     - Fort potentiel d'hétéroscédasticité
-    - Les données sont souvent asymtrique $\rightarrow$ problèmes pour les tests d'hypothèses et les intervalles de confiance.
+    - Les données sont souvent asymétrique $\rightarrow$ problèmes pour les tests d'hypothèses et les intervalles de confiance.
     
 
 
@@ -47,11 +47,11 @@ output:
     - Densité généralement hétéroscédastique
     - Interprétation semblable à la régression logistique
 
-METTRE DES GRAPHIQUES QUI PROUVENT LE POINT 2
+METTRE DES GRAPHIQUES QUI PROUVENT LE POINT 1
 
 ## Présentation mathématique
 
-\begin{exampleblock}{Densité d'une loin bêta}
+\begin{exampleblock}{Densité d'une loi bêta}
 \begin{equation} 
   f_Y\left(y\right) = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} y^{\alpha-1}(1-y)^{\beta - 1}
   \label{eq:beta_base}
@@ -66,19 +66,174 @@ De l'équation \ref{eq:beta_base}, Ferrari et Cribari-Neto ont proposé une nouv
 
 ## Nouvelle paramétrisation
 
-On obtient :
-
 \begin{exampleblock}{Densité sous la nouvelle paramétrisation}
 \begin{equation} 
-  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}
+  f_{Y}\left(y\right) = \frac{\Gamma(\mu\phi)}{\Gamma((1-\mu)\phi)} y^{\mu\phi-1}(1-y)^{(1-\mu)(\phi-1)}
   \label{eq:beta_nouvelle}
 \end{equation} 
 \end{exampleblock}
 
+On peut donc dire que $y\sim B(\mu,\phi)$. L'équation \ref{eq:beta_nouvelle} nous donne les propriétés suivantes : 
+\begin{itemize}
+  \item $E(y) = \mu$
+  \item $Var(y) = \frac{\mu(1-\mu)}{1+\phi}$
+\end{itemize} 
+
+On appelle d'ailleurs $\phi$ le paramètre de dispersion.
+
+# Modèle de régression
+
+## Définition du modèle
+On peut maintenant définir le modèle pratiquement comme un GLM, c'est à dire : 
+\begin{exampleblock}{Modèle de régression bêta simple}
+\begin{equation} 
+  g(\mu_i) = x_i^t\beta = \eta_i
+  \label{eq:beta_mod}
+\end{equation} 
+\end{exampleblock}
+
+La fonction de lien $g()$ peut être choisie comme pour un GLM classique, soit en utilisant le logit, le log-log, le Cauchy. C'est au choix de l'utilisateur. De base, le package ```betareg``` utilise le lien logit. 
+
+La variance de $y_i$ est donnée par la formule suivante. On remarque facilement qu'elle dépend de $\mu_i$, donc il y a hétéroscédasticité.
+
+\begin{exampleblock}{}
+\begin{equation} 
+  VAR(y_i) = \frac{\mu_i(1- \mu_i)}{1 + \phi}
+  \label{eq:var}
+\end{equation} 
+\end{exampleblock}
+
+## Paramètre de dispersion non-constant
+
+Smithson et Verkuilen, en 2006, ont proposé un modèle où le paramètre de dispersion est non-constant. On se retrouve donc avec un autre paramètre à estimer. La régression est donnée par : 
+
+\begin{exampleblock}{Modèle de régression bêta avec dispersion changeante}
+\begin{equation} 
+  g_1(\mu_i) = x_i^t\beta = \eta_{1i}
+  \label{eq:var}
+\end{equation}
+\begin{equation} 
+  g_2(\phi_i) = z_i^t\gamma = \eta_{2i}
+  \label{eq:var4}
+\end{equation}
+\end{exampleblock}
+
+## Estimation des paramètres
+
+Les paramètres sont estimés en maximisant la vraisemblance. La fonction log-vraisemblance est aisémant calculable, elle est donnée par : 
+\begin{exampleblock}{Fonction du log-vraisemblance}
+\begin{equation}
+\begin{aligned}
+l_i(\mu_i,\phi_i) =  & log\Gamma(\phi_i) - log\Gamma(\mu_i\phi_i) - \\
+      & log\Gamma((1-\mu_i)\phi_i) + (\mu_i\phi_i - 1)log(y_i) + \\
+      & ((1-\mu_i)\phi_i-1)log(1-y_i)
+      \label{eq:var}
+\end{aligned}
+\end{equation}
+\end{exampleblock}
+
+# Exemple d'utilisation
+
+## Jeu de données utilisé
+
+- Titre : Proportion of seats held by women in national parliaments (%)
+- Source : https://datahub.io/world-bank/sg.gen.parl.zs#resource-data
+- Nombre de données : 3917 
+- Variables : 
+    - Nom du pays
+    - Code ISO du pays
+    - Continent
+    - Année
+    - Proportion
+
 ---
 
-```{r, cars, fig.cap="Nuage de points", echo=FALSE}
-summary(cars)
+```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE}
+source("code_base.R")
 ```
+
+## Implémentation en R
+
+Supposons que l'on veut prédire la proportion de femmes en fonction du continent. Comme il s'agit d'une proportion, on peut utiliser la régression bêta. Le package ```betareg``` nous permet de faire exactement ça. L'écriture à utiliser est la suivante : 
+
+```{r, fig.cap="", echo=TRUE,warning=FALSE,message=FALSE,eval=FALSE}
+betareg(formula, data, subset, na.action, weights, offset,
+  link = c("logit", "probit", "cloglog", 
+           "cauchit", "log", "loglog"),
+  link.phi = NULL, type = c("ML", "BC", "BR"),
+  control = betareg.control(...), model = TRUE,
+  y = TRUE, x = FALSE, ...)
+```
+
+## Premier modèle : Lien logit et dispersion fixe 
+
+```{r, fig.cap="", echo=TRUE,warning=FALSE,message=FALSE,eval=FALSE}
+library(betareg)
+mod1 <- betareg(Value~continent,
+                link = "logit",
+                data=dat_prop)
+summary(mod1)
+```
+
+## Résumé du modèle
+
+
+```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE,eval=TRUE}
+library(betareg)
+library(pander)
+mod1 <- betareg(Value~continent,link = ("logit"),data=dat_prop)
+knitr::kable(as.data.frame(summary(mod1)$coefficients$mean),
+             booktabs = T)
+knitr::kable(as.data.frame(summary(mod1)$coefficients$precision),
+             booktabs = T)
+```
+
+## Deuxième modèle : Lien logit et dispersion changeante
+
+```{r, fig.cap="", echo=TRUE,warning=FALSE,message=FALSE,eval=FALSE}
+mod2 <- betareg(Value~continent|continent,
+                link = "logit",
+                link.phi = "log",
+                data=dat_prop)
+summary(mod2)
+```
+
+## Résumé du modèle
+
+
+```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE,eval=TRUE}
+mod2 <- betareg(Value~continent|continent,
+                link = "logit",
+                link.phi = "log",
+                data=dat_prop)
+knitr::kable(as.data.frame(summary(mod2)$coefficients$mean),
+             booktabs = T)
+knitr::kable(as.data.frame(summary(mod2)$coefficients$precision),
+             booktabs = T)
+```
+
+## Troisième modèle : Lien log-log et dispersion constante
+
+```{r, fig.cap="", echo=TRUE,warning=FALSE,message=FALSE,eval=FALSE}
+mod3 <- betareg(Value~continent|1,
+                link = "loglog",
+                data=dat_prop)
+summary(mod3)
+```
+
+## Résumé du modèle
+
+
+```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE,eval=TRUE}
+mod3 <- betareg(Value~continent|1,
+                link = "loglog",
+                link.phi = "identity",
+                data=dat_prop)
+knitr::kable(as.data.frame(summary(mod3)$coefficients$mean),
+             booktabs = T)
+knitr::kable(as.data.frame(summary(mod3)$coefficients$precision),
+             booktabs = T)
+```
+
 
 

@@ -1,0 +1,11 @@
+\frametitle{Troisième modèle : Lien log-log et dispersion constante}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod3 <-}\StringTok{ }\KeywordTok{betareg}\NormalTok{(Value}\OperatorTok{~}\NormalTok{continent}\OperatorTok{|}\DecValTok{1}\NormalTok{,}
+                \DataTypeTok{link =} \StringTok{"loglog"}\NormalTok{,}
+                \DataTypeTok{data=}\NormalTok{dat_prop)}
+\KeywordTok{summary}\NormalTok{(mod3)}
+\end{Highlighting}
+\end{Shaded}
+

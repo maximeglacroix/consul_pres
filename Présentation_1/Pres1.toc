@@ -1,2 +1,4 @@
 \beamer@sectionintoc {1}{Mise en contexte}{2}{0}{1}
 \beamer@sectionintoc {2}{Solution : R\IeC {\'e}gression B\IeC {\^e}ta}{5}{0}{2}
+\beamer@sectionintoc {3}{Mod\IeC {\`e}le de r\IeC {\'e}gression}{9}{0}{3}
+\beamer@sectionintoc {4}{Exemple d'utilisation}{13}{0}{4}
