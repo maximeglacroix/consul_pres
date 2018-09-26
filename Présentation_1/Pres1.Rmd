@@ -19,6 +19,7 @@ output:
 - Par exemple, un taux ou une proportion
 - Régression linéaire "classique" à éviter
 
+
 ## Première solution : transformation logit
 
 \begin{exampleblock}{Première transformation possible}
@@ -155,7 +156,7 @@ source("code_base.R")
 
 ## Implémentation en R
 
-Supposons que l'on veut prédire la proportion de femmes en fonction du continent. Comme il s'agit d'une proportion, on peut utiliser la régression bêta. Le package ```betareg``` nous permet de faire exactement ça. L'écriture à utiliser est la suivante : 
+Supposons que l'on veut prédire la proportion de femmes en fonction du continent. Comme il s'agit d'une proportion, on peut utiliser la régression bêta. Le package ```betareg``` nous permet d'effectuer cette analyse. L'écriture à utiliser est la suivante : 
 
 ```{r, fig.cap="", echo=TRUE,warning=FALSE,message=FALSE,eval=FALSE}
 betareg(formula, data, subset, na.action, weights, offset,
@@ -242,7 +243,7 @@ Les différents modèles nous ont montré différentes choses :
 - Peu importe le lien choisi, l'estimation de $\phi$ est la même si on choisi que $\phi$ est constant.
 - Comme on maximise la vraisemblance, il est naturel que les coefficients pour $\mu$ ne soient pas les mêmes pour les modèles 1 et 2.
 
-Maintenant, on pourrait se demander quel est le meilleur modèle. Plusieurs options s'offrent à nous, que ce soit un test de vraisemblance ou en utilisant le critère de notre choix. 
+Quel est le meilleur modèle?
 
 ## Test du maximum de vraisemblance
 
@@ -282,7 +283,7 @@ AIC(mod1,mod2,mod3)
 
 ## Contexte
 
-En 2010, Grün, Kosmidis et Zeilis ont publié l'article *Extended Beta Regression in R: Shaken, Stirred, Mixed and Partitinoed*, dans lequel ils expliquent différentes méthodes plus complexes pouvant améliorer le modèle. Trois grois thèmes y ressortent, soient : 
+En 2010, Grün, Kosmidis et Zeilis ont publié l'article *Extended Beta Regression in R: Shaken, Stirred, Mixed and Partitioned*, dans lequel ils expliquent différentes méthodes plus complexes pouvant améliorer le modèle. Trois grois thèmes y ressortent, soient : 
 
 - Correction de biais dans l'estimation des paramètres
 - Les arbres de régression bêta
@@ -311,3 +312,49 @@ betareg(formula, data, subset, na.action, weights, offset,
 ```
 
 Remarquons le ```type``` correspond à la mtéhode d'estimation choisie.
+
+
+## Arbres de régression bêta
+
+L'idée derrière cette méthode est de se questionner à savoir s'il n'y aurait pas une autre variable qui permettrait de partitionner le modèle. Après avoir partitionné le modèle, on peut estimer les paramètres dans chacune des partitions. Voici un example simple : 
+
+```{r, fig.cap="", echo=TRUE,warning=FALSE,message=FALSE,eval=FALSE}
+mod4 <- betatree(Value~continent,
+                 ~Decennie, 
+                 link = "logit",
+                 data=dat_prop,
+                 minsize=100)
+plot(mod4)
+```
+
+
+## Résultat 
+
+```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE,eval=TRUE}
+mod4 <- betatree(Value~continent,
+                 ~Decennie, 
+                 link = "logit",
+                 data=dat_prop,
+                 minsize=100)
+plot(mod4)
+```
+
+On voit que de faire un modèle différent par décennie semble une option intéressante. 
+
+## Mélange de régressions bêta
+
+On pourrait  qu'il y a des différences dans différents sous-groupes de l'échantillon, mais qu'il existe pas de variables discriminante. La solution : utiliser ```betamix```. Voici un example. Ça revient à créer un 3 _clusters_ de données et d'estimer un modèle pour chacun des _clusters_.
+
+```{r, fig.cap="", echo=TRUE,warning=FALSE,message=FALSE,eval=FALSE}
+rs_mix <- betamix(accuracy ~ iq, data = ReadingSkills, k = 3,
+  nstart = 10, extra_components = extraComponent(type = "uniform",
+  coef = 0.99, delta = 0.01))
+```
+
+# Conclusion
+
+## Conclusion
+
+- Modèle relativement simple à utiliser
+- Possibilité de complexifier les choses rapidement
+- Règle beaucoup de problèmes avec la dispersion des données que la régression linéaire n'est pas en mesure de faire.

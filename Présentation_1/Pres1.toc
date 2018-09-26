@@ -3,3 +3,4 @@
 \beamer@sectionintoc {3}{Mod\IeC {\`e}le de r\IeC {\'e}gression}{9}{0}{3}
 \beamer@sectionintoc {4}{Exemple d'utilisation}{13}{0}{4}
 \beamer@sectionintoc {5}{M\IeC {\'e}thodes avanc\IeC {\'e}es}{27}{0}{5}
+\beamer@sectionintoc {6}{Conclusion}{34}{0}{6}

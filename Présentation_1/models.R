@@ -20,10 +20,10 @@ mod4 <- betatree(Value~continent,
                  link = "logit",
                  data=dat_prop,
                  minsize=100)
-plot(mod4)
+
 lrtest(mod1,mod2)
 lrtest(mod3,mod2)
-lrtest(mod1,mod3)
+lrtest(mod1,mod4)
 summary(mod3)
 summary(mod2)
 summary(mod1)
