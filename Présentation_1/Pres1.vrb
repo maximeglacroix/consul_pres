@@ -1,11 +1,18 @@
-\frametitle{Troisième modèle : Lien log et dispersion constante}
+\frametitle{Implémentation en R}
+
+Rappel : Écriture de la fonction \texttt{betareg} :
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mod3 <-}\StringTok{ }\KeywordTok{betareg}\NormalTok{(Value}\OperatorTok{~}\NormalTok{continent}\OperatorTok{|}\DecValTok{1}\NormalTok{,}
-                \DataTypeTok{link =} \StringTok{"log"}\NormalTok{,}
-                \DataTypeTok{data=}\NormalTok{dat_prop)}
-\KeywordTok{summary}\NormalTok{(mod3)}
+\KeywordTok{betareg}\NormalTok{(formula, data, subset, na.action, weights, offset,}
+  \DataTypeTok{link =} \KeywordTok{c}\NormalTok{(}\StringTok{"logit"}\NormalTok{, }\StringTok{"probit"}\NormalTok{, }\StringTok{"cloglog"}\NormalTok{, }
+           \StringTok{"cauchit"}\NormalTok{, }\StringTok{"log"}\NormalTok{, }\StringTok{"loglog"}\NormalTok{),}
+  \DataTypeTok{link.phi =} \OtherTok{NULL}\NormalTok{, }\DataTypeTok{type =} \KeywordTok{c}\NormalTok{(}\StringTok{"ML"}\NormalTok{, }\StringTok{"BC"}\NormalTok{, }\StringTok{"BR"}\NormalTok{),}
+  \DataTypeTok{control =} \KeywordTok{betareg.control}\NormalTok{(...), }\DataTypeTok{model =} \OtherTok{TRUE}\NormalTok{,}
+  \DataTypeTok{y =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{x =} \OtherTok{FALSE}\NormalTok{, ...)}
 \end{Highlighting}
 \end{Shaded}
+
+Remarquons le \texttt{type} correspond à la mtéhode d'estimation
+choisie.
 
