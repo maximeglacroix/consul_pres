@@ -1,16 +1,19 @@
 \frametitle{Mélange de régressions bêta}
 
-On pourrait qu'il y a des différences dans différents sous-groupes de
-l'échantillon, mais qu'il existe pas de variables discriminante. La
-solution : utiliser \texttt{betamix}. Voici un example. Ça revient à
-créer un 3 \emph{clusters} de données et d'estimer un modèle pour chacun
-des \emph{clusters}.
+On pourrait supposer qu'il y a des différences dans différents
+sous-groupes de l'échantillon, mais qu'il n'existe pas de variables
+discriminantes. La solution : utiliser \texttt{betamix}. Voici un
+example. Ça revient à créer 3 \emph{clusters} de données et d'estimer un
+modèle pour chacun des \emph{clusters}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{rs_mix <-}\StringTok{ }\KeywordTok{betamix}\NormalTok{(accuracy }\OperatorTok{~}\StringTok{ }\NormalTok{iq, }\DataTypeTok{data =}\NormalTok{ ReadingSkills, }\DataTypeTok{k =} \DecValTok{3}\NormalTok{,}
-  \DataTypeTok{nstart =} \DecValTok{10}\NormalTok{, }\DataTypeTok{extra_components =} \KeywordTok{extraComponent}\NormalTok{(}\DataTypeTok{type =} \StringTok{"uniform"}\NormalTok{,}
-  \DataTypeTok{coef =} \FloatTok{0.99}\NormalTok{, }\DataTypeTok{delta =} \FloatTok{0.01}\NormalTok{))}
+\NormalTok{rs_mix <-}\StringTok{ }\KeywordTok{betamix}\NormalTok{(accuracy }\OperatorTok{~}\StringTok{ }\NormalTok{iq, }
+                  \DataTypeTok{data =}\NormalTok{ ReadingSkills, }\DataTypeTok{k =} \DecValTok{3}\NormalTok{,}
+                  \DataTypeTok{nstart =} \DecValTok{10}\NormalTok{, }
+                  \DataTypeTok{extra_components =} \KeywordTok{extraComponent}\NormalTok{(}
+                  \DataTypeTok{type =} \StringTok{"uniform"}\NormalTok{,}
+                  \DataTypeTok{oef =} \FloatTok{0.99}\NormalTok{, }\DataTypeTok{delta =} \FloatTok{0.01}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 

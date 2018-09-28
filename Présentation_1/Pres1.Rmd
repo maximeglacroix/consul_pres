@@ -22,7 +22,7 @@ output:
 
 ## Première solution : transformation logit
 
-\begin{exampleblock}{Première transformation possible}
+\begin{exampleblock}{Transformation possible}
 \begin{equation} 
   \widetilde{y} = log(\frac{y}{1-y})
   \label{eq:beta_base}
@@ -34,8 +34,14 @@ output:
 - Désavantages : 
     - Interprétation différente
     - Fort potentiel d'hétéroscédasticité
-    - Les données sont souvent asymétrique $\rightarrow$ problèmes pour les tests d'hypothèses et les intervalles de confiance.
-    
+    - Les données sont souvent asymétriques $\rightarrow$ problèmes pour les tests d'hypothèses et les intervalles de confiance.
+
+```{r echo=FALSE}
+knitr::knit_hooks$set(mysize = function(before, options, envir) {
+  if (before) 
+    return(options$size)
+})
+```
 
 
 # Solution : Régression Bêta
@@ -48,13 +54,11 @@ output:
     - Densité généralement hétéroscédastique
     - Interprétation semblable à la régression logistique
 
-METTRE DES GRAPHIQUES QUI PROUVENT LE POINT 1
-
 ## Présentation mathématique
 
 \begin{exampleblock}{Densité d'une loi bêta}
 \begin{equation} 
-  f_Y\left(y\right) = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} y^{\alpha-1}(1-y)^{\beta - 1}
+  f_Y\left(y\right) = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} y^{\alpha-1}(1-y)^{\beta - 1} \quad y \in (0,1) \quad \alpha,\beta > 0
   \label{eq:beta_base}
 \end{equation} 
 \end{exampleblock}
@@ -74,10 +78,10 @@ De l'équation \ref{eq:beta_base}, Ferrari et Cribari-Neto ont proposé une nouv
 \end{equation} 
 \end{exampleblock}
 
-On peut donc dire que $y\sim B(\mu,\phi)$. L'équation \ref{eq:beta_nouvelle} nous donne les propriétés suivantes : 
+On peut donc dire que $Y\sim B(\mu,\phi)$. L'équation \ref{eq:beta_nouvelle} nous donne les propriétés suivantes : 
 \begin{itemize}
-  \item $E(y) = \mu$
-  \item $Var(y) = \frac{\mu(1-\mu)}{1+\phi}$
+  \item $E(Y) = \mu$
+  \item $Var(Y) = \frac{\mu(1-\mu)}{1+\phi}$
 \end{itemize} 
 
 On appelle d'ailleurs $\phi$ le paramètre de dispersion.
@@ -95,7 +99,7 @@ On peut maintenant définir le modèle pratiquement comme un GLM, c'est à dire 
 
 La fonction de lien $g()$ peut être choisie comme pour un GLM classique, soit en utilisant le logit, le log-log, le Cauchy. C'est au choix de l'utilisateur. De base, le package ```betareg``` utilise le lien logit. 
 
-La variance de $y_i$ est donnée par la formule suivante. On remarque facilement qu'elle dépend de $\mu_i$, donc il y a hétéroscédasticité.
+La variance d'une observation $y_i$ est donnée par la formule suivante. On remarque facilement qu'elle dépend de $\mu_i$, donc il y a hétéroscédasticité.
 
 \begin{exampleblock}{}
 \begin{equation} 
@@ -180,14 +184,11 @@ summary(mod1)
 ## Résumé du modèle
 
 
-```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE,eval=TRUE}
+```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE,eval=TRUE,mysize=TRUE, size='\\tiny'}
 library(betareg)
 library(pander)
 mod1 <- betareg(Value~continent,link = ("logit"),data=dat_prop)
-knitr::kable(as.data.frame(summary(mod1)$coefficients$mean),
-             booktabs = T)
-knitr::kable(as.data.frame(summary(mod1)$coefficients$precision),
-             booktabs = T)
+summary(mod1)
 ```
 
 ## Deuxième modèle : Lien logit et dispersion changeante
@@ -203,15 +204,12 @@ summary(mod2)
 ## Résumé du modèle
 
 
-```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE,eval=TRUE}
+```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE,eval=TRUE,mysize=TRUE, size='\\tiny'}
 mod2 <- betareg(Value~continent|continent,
                 link = "logit",
                 link.phi = "log",
                 data=dat_prop)
-knitr::kable(as.data.frame(summary(mod2)$coefficients$mean),
-             booktabs = T)
-knitr::kable(as.data.frame(summary(mod2)$coefficients$precision),
-             booktabs = T)
+summary(mod2)
 ```
 
 ## Troisième modèle : Lien log et dispersion constante
@@ -226,14 +224,11 @@ summary(mod3)
 ## Résumé du modèle
 
 
-```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE,eval=TRUE}
+```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE,eval=TRUE, mysize=TRUE, size='\\tiny'}
 mod3 <- betareg(Value~continent|1,
                 link = "log",
                 data=dat_prop)
-knitr::kable(as.data.frame(summary(mod3)$coefficients$mean),
-             booktabs = T)
-knitr::kable(as.data.frame(summary(mod3)$coefficients$precision),
-             booktabs = T)
+summary(mod3)
 ```
 
 ## Comparaison des différents modèles 
@@ -283,7 +278,7 @@ AIC(mod1,mod2,mod3)
 
 ## Contexte
 
-En 2010, Grün, Kosmidis et Zeilis ont publié l'article *Extended Beta Regression in R: Shaken, Stirred, Mixed and Partitioned*, dans lequel ils expliquent différentes méthodes plus complexes pouvant améliorer le modèle. Trois grois thèmes y ressortent, soient : 
+En 2010, Grün, Kosmidis et Zeilis ont publié l'article *Extended Beta Regression in R: Shaken, Stirred, Mixed and Partitioned*, dans lequel ils expliquent différentes méthodes plus complexes pouvant améliorer le modèle. Trois gros thèmes y ressortent, soient : 
 
 - Correction de biais dans l'estimation des paramètres
 - Les arbres de régression bêta
@@ -291,7 +286,7 @@ En 2010, Grün, Kosmidis et Zeilis ont publié l'article *Extended Beta Regressi
 
 ## Correction de biais
 
-Dans l'article, on discute le fait que la méthode du maximum de vraisemblance pour estimer les paramètres de $\phi$ ont tendance à sous-estimer les écarts-types des paramètres, ce qui amène des problèmes notamment au niveau de l'inférence que l'on peut faire avec le modèle. 
+Dans l'article, on discute le fait que la méthode du maximum de vraisemblance pour estimer les paramètres de $\phi$ a tendance à sous-estimer l'écart-type des paramètres, ce qui amène des problèmes notamment au niveau de l'inférence que l'on peut faire avec le modèle. 
 
 Solution : 
 
@@ -311,7 +306,7 @@ betareg(formula, data, subset, na.action, weights, offset,
   y = TRUE, x = FALSE, ...)
 ```
 
-Remarquons le ```type``` correspond à la mtéhode d'estimation choisie.
+Remarquons le ```type``` correspond à la méthode d'estimation choisie.
 
 
 ## Arbres de régression bêta
@@ -343,13 +338,18 @@ On voit que de faire un modèle différent par décennie semble une option inté
 
 ## Mélange de régressions bêta
 
-On pourrait  qu'il y a des différences dans différents sous-groupes de l'échantillon, mais qu'il existe pas de variables discriminante. La solution : utiliser ```betamix```. Voici un example. Ça revient à créer un 3 _clusters_ de données et d'estimer un modèle pour chacun des _clusters_.
+On pourrait supposer qu'il y a des différences dans différents sous-groupes de l'échantillon, mais qu'il n'existe pas de variables discriminantes. La solution : utiliser ```betamix```. Voici un example. Ça revient à créer 3 _clusters_ de données et d'estimer un modèle pour chacun des _clusters_.
 
 ```{r, fig.cap="", echo=TRUE,warning=FALSE,message=FALSE,eval=FALSE}
-rs_mix <- betamix(accuracy ~ iq, data = ReadingSkills, k = 3,
-  nstart = 10, extra_components = extraComponent(type = "uniform",
-  coef = 0.99, delta = 0.01))
+rs_mix <- betamix(accuracy ~ iq, 
+                  data = ReadingSkills, k = 3,
+                  nstart = 10, 
+                  extra_components = extraComponent(
+                  type = "uniform",
+                  oef = 0.99, delta = 0.01))
 ```
+
+
 
 # Conclusion
 
