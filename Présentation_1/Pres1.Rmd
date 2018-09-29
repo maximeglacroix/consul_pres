@@ -20,30 +20,6 @@ output:
 - Régression linéaire "classique" à éviter
 
 
-## Première solution : transformation logit
-
-\begin{exampleblock}{Transformation possible}
-\begin{equation} 
-  \widetilde{y} = log(\frac{y}{1-y})
-  \label{eq:beta_base}
-\end{equation} 
-\end{exampleblock}
-
-- Avantage :
-    - Les données ne sont plus bornées, la régression linéaire est envisageable
-- Désavantages : 
-    - Interprétation différente
-    - Fort potentiel d'hétéroscédasticité
-    - Les données sont souvent asymétriques $\rightarrow$ problèmes pour les tests d'hypothèses et les intervalles de confiance.
-
-```{r echo=FALSE}
-knitr::knit_hooks$set(mysize = function(before, options, envir) {
-  if (before) 
-    return(options$size)
-})
-```
-
-
 # Solution : Régression Bêta
 
 ## Brève présentation 
@@ -153,6 +129,13 @@ l_i(\mu_i,\phi_i) =  & log\Gamma(\phi_i) - log\Gamma(\mu_i\phi_i) - \\
     - Proportion
 
 ---
+
+```{r echo=FALSE}
+knitr::knit_hooks$set(mysize = function(before, options, envir) {
+  if (before) 
+    return(options$size)
+})
+```
 
 ```{r, fig.cap="", echo=FALSE,warning=FALSE,message=FALSE}
 source("code_base.R")

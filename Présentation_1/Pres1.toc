@@ -1,6 +1,6 @@
 \beamer@sectionintoc {1}{Mise en contexte}{2}{0}{1}
-\beamer@sectionintoc {2}{Solution : R\IeC {\'e}gression B\IeC {\^e}ta}{5}{0}{2}
-\beamer@sectionintoc {3}{Mod\IeC {\`e}le de r\IeC {\'e}gression}{9}{0}{3}
-\beamer@sectionintoc {4}{Exemple d'utilisation}{13}{0}{4}
-\beamer@sectionintoc {5}{M\IeC {\'e}thodes avanc\IeC {\'e}es}{27}{0}{5}
-\beamer@sectionintoc {6}{Conclusion}{34}{0}{6}
+\beamer@sectionintoc {2}{Solution : R\IeC {\'e}gression B\IeC {\^e}ta}{4}{0}{2}
+\beamer@sectionintoc {3}{Mod\IeC {\`e}le de r\IeC {\'e}gression}{8}{0}{3}
+\beamer@sectionintoc {4}{Exemple d'utilisation}{12}{0}{4}
+\beamer@sectionintoc {5}{M\IeC {\'e}thodes avanc\IeC {\'e}es}{26}{0}{5}
+\beamer@sectionintoc {6}{Conclusion}{33}{0}{6}
