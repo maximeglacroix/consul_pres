@@ -1,0 +1,32 @@
+---
+title: "Résumé de la consultation observée"
+author: "Maxime Lacroix"
+date: "28 septembre 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Déroulement de la consultation
+
+Sommes toutes, la consultation s'est très bien déroulée. En effet, Ayoub et moi avons suivi les étapes proposées dans les notes de cours pour s'assurer d'une compréhension du cas ainsi que de la satisfaction de notre cliente. 
+
+### Accueil de la cliente
+
+Nous avons accueilli la cliente, une étudiante en endodontie, ce vendredi matin à 10:00. Ayoub s'est occupé de prendre en note divers renseignements sur la cliente et lui a expliqué qu'il la reverrait la semaine prochaine pour faire un suivi. 
+
+### Compréhension du mandat
+
+Après la brève introduction, nous sommes tombés dans le vif du sujet : son projet de maitrise. Après plusieurs minutes de questions-réponses, nous avons finalement réussi à bien comprendre l'idée derrière son projet. Un des conseils que nous avons reçus dans le cours d'_Introduction à la consultation statistique_ est de ne pas avoir peur de poser plusieurs questions, pour s'assurer qu'on comprenne totalement (ou presque) la question de recherche du client, et c'est exactement la technique qu'Ayoub utilisait. Il n'hésitait pas du tout à poser plusieurs questions et semblait totalement à l'écoute. On a eu la chance d'avoir une cliente qui connaissait très bien son projet de recherche, donc ses réponses étaient rarement évasives, ce qui a grandement facilité notre travail. 
+
+### Proposition de pistes de solution
+
+Tout au long de la consultation, nous avons eu l'occasion de conseiller la cliente sur différents aspects. Pour faire simple, son projet consiste entre autres à faire passer un questionnaire à différents types de participants, qui doivent évaluer un traitement de canal selon certains critères. Pour éviter un biais du à la position dans le questionnaire, nous lui avons suggéré de placer en rotation les traitements de canaux dans le questionnaire. Nous lui avons aussi conseillé de faire un prétest qui va lui permettre d'évaluer le temps nécessaire pour remplir le questionnaire. Elle s'interrogeait notamment à savoir combien d'évaluations elle pouvait mettre, sachant qu'elle ne voulait pas que ça dure plus de 30 minutes. 
+
+Cela étant dit, malgré quelques pistes de solution et de réflexion, nous lui avons répété à quelques reprises que nous aurions des réponses plus définitives pour elle suite à la réunion hebdomadaire. Une rencontre a été scédulée avec elle la semaine prochaine.
+
+### Compétences acquises
+
+Cette consulation m'a permis de mettre en application plusieurs notions vues dans le cours, notamment l'idée de ne pas se gêner à poser multiples questions. Ça a été une expérience enrichissante qui a confirmé mon intérêt pour la consultation statistique et qui m'a permis de m'informer sur un domaine qui m'était totalement inconnu. 

@@ -1,0 +1,130 @@
+---
+title: |
+  | Résumé d'article scientifique 
+subtitle: "Regression modeling and mapping of coniferous forest basal area and tree density from discrete-return lidar and multispectral data"
+author: Maxime Lacroix
+date: 23 novembre 2018
+output: 
+ beamer_presentation:
+    theme: "AnnArbor"
+    colortheme: "beaver"
+    fonttheme: "structurebold"
+    toc : true
+---
+
+
+
+
+# Introduction
+
+## Contexte
+
+- Article publié par Hudak et al. en 2006
+- _Canadian Journal of Remote Sensing_
+- Contexte de modélisation forestière
+
+## Objectif 
+
+- Modéliser deux variables réponses : 
+    - Surface terrière (_basal area_)
+    - Densité de l'arbre (_tree density_)
+- À l'aide de variables provenant de deux méthodes de détection : 
+    - Le lidar (_discrete-return_ **li**_ght_ **d**_etection_ **a**_nd_ **r**_anging_)
+    - Multispectral satellite data (_ALI_)
+- Pour résumer, on tente de prédire ces deux variables en fonction des données qu'on est capable de capter.
+   
+## Compréhension du lidar
+
+\includegraphics[height=7.5cm,width=11.5cm]{tes.jpg}
+
+# Collecte des données
+
+## Plan d'échantillonnage
+
+- On s'intéresse à deux forêts au nord de l'Idaho, aux États-Unis 
+    - St-Joe Woodlands 
+    - Moscow Mountain
+- Plan d'échantillonnage en deux étaptes
+    - Dans chaque forêt, on créé 9 strates basées sur :
+        - 3 classes d'élévation
+        - 3 classes d'insolation solaire 
+    - Dans chaque strate : 9 classes de _leaf area index_
+    
+    - Sélection aléatoire des points pour chacun des regroupements d'élévation, insolation et LAI.
+
+## Résumé du plan d'échantillonnage
+
+\includegraphics[height=7.5cm,width=11.5cm]{plan.png}
+
+## Collecte des données
+
+- Mesure de la surface terrière et la densité de l'arbre sur site
+- Mesures ALI faites en octobre 2004
+- Mesures lidar faites en Juillet, Août et Septembre 2003
+
+# Modélisation
+
+## Variables disponibles 
+
+- En tout, 26 variables sont utilisées pour prédire 
+- 2 variables à prédire (BA et TD), quelques transformations : 
+   - On pose 0 si arbre trop petit
+   - On utilise ln(BA+1) et ln(TD+1)
+   
+## Liste des variables 
+\begin{center}
+\includegraphics[height=7.5cm]{var.png}
+\end{center}
+
+## Modèle et sélection de variables
+
+- Régression linéaire (utilisation de ```lm```)
+- Deux étapes de sélection de variable : 
+    - Méthode algorithmique stepAIC pour déterminer le nombre de paramètres dans le modèle
+    - ```leaps::regsubsets()```, qui permet de trouver le meilleur modèle selon le nombre de paramètres.
+    
+- Méthode de validation croisée pour tenter de prédire le BA et le TD
+
+# Principaux constats
+
+
+## Comparaison des deux méthodes
+
+\includegraphics[height=7.5cm,width=11.5cm]{comp.png}
+
+
+## Présentation des coefficients du modèle BA
+
+\includegraphics{modBA.png}
+
+
+## Présentation des coefficients du modèle TD
+
+\includegraphics{modTD.png}
+
+
+## Prédictions avec validation croisée
+\begin{center}
+\includegraphics[height=7.5cm]{pred.png}
+\end{center}
+# Conclusion et discussion
+
+## Discussion
+
+- Ajout pertinent d'un effet aléatoire forêt ?
+- Mention d'utilisation potentielle d'un GLM
+- Vérification de la multicollinéarité ? 
+- Pertinence de la transformation ln
+
+
+## Conclusion
+
+- Le lidar et le multispectral satellite data permettent de bien prédire le BA et le TD ($R^2 \approx 0.9$)
+- Serait intéressant de refaire l'exercice avec des modèles un peu plus complexes
+- La situation a-t-elle changée depuis 2006 ? Avons-nous accès à de nouvelles technologies qui seraient meilleures?
+
+
+## Sources 
+
+- Image sur le lidar : https://www.elprocus.com/lidar-light-detection-and-ranging-working-application/
+- Autres images et tableaux proviennent directement de l'article
